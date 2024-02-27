@@ -14,12 +14,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final List<num> stack = [5, 3];
+  final List<num> stack = [];
+  String numberToAdd = '0';
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Calculator',
       theme: ThemeData(
         // Define the default brightness and colors.
@@ -32,12 +34,15 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            buildDisplay(),
-            buildNumpad(context),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              buildDisplay(),
+              buildNumpad(context),
+            ],
+          ),
         ),
       ),
     );
@@ -76,22 +81,18 @@ class _MyAppState extends State<MyApp> {
           ),
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(16),
-          child: Text(
-            stack.join(' '),
-            style: const TextStyle(fontSize: 48),
+          child: Column(
+            children: [
+              Text(
+                "[ ${stack.join(', ')} ]",
+                style: const TextStyle(fontSize: 48),
+              ),
+              Text(numberToAdd, style: const TextStyle(fontSize: 48)),
+            ],
           ),
         ),
       ),
     );
-  }
-
-  _addNumberToStack(String value) {
-    var numericValue = num.tryParse(value);
-    if (numericValue == null) return;
-
-    setState(() {
-      stack.add(numericValue);
-    });
   }
 
   _applyCommand(String value) {
@@ -102,17 +103,37 @@ class _MyAppState extends State<MyApp> {
       });
     } on Exception catch (e) {
       if (e.toString() == 'Exception: Not enough operands') {
-       return;
+        return;
       }
       rethrow;
     }
   }
 
   _onButtonPressed(String value) {
-    if (operations.contains(value) || utilityOperations.contains(value)) {
+    if (value == 'Enter') {
+      setState(() {
+        stack.add(num.parse(numberToAdd));
+        numberToAdd = '0';
+      });
+    } else if (operations.contains(value) ||
+        utilityOperations.contains(value)) {
+      if (stack.isNotEmpty && numberToAdd != '0') {
+        // In order to allow the user to make a calculation with the number that is currently being typed
+        stack.add(num.parse(numberToAdd));
+        numberToAdd = '0';
+      }
       _applyCommand(value);
     } else {
-      _addNumberToStack(value);
+      var numericValue = num.tryParse(value);
+      if (numericValue == null) return;
+
+      setState(() {
+        if (numberToAdd == '0') {
+          numberToAdd = value;
+        } else {
+          numberToAdd += value;
+        }
+      });
     }
   }
 }

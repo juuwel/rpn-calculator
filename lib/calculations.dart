@@ -1,9 +1,3 @@
-void main() {
-  print('Hello, World!');
-
-  final addCommand = AddCommand();
-}
-
 abstract class Command {
   final executedCommands = [];
 
@@ -28,6 +22,7 @@ abstract class UtilityCommand extends Command {
   }
 }
 
+/* MATH COMMANDS */
 class AddCommand extends Command {
   @override
   void execute(List<num> stack) {
@@ -40,10 +35,13 @@ class AddCommand extends Command {
   }
 }
 
-class SubstractCommand extends Command {
+class SubtractCommand extends Command {
   @override
   void execute(List<num> stack) {
-    stack.add(stack.removeLast() - stack.removeLast());
+    // calling removeLast() twice will get the numbers in the wrong order,
+    // as we need to substract the last number from the second to last number
+    var last = stack.removeLast();
+    stack.add(stack.removeLast() - last);
   }
 
   @override
@@ -67,9 +65,11 @@ class MultiplicationCommand extends Command {
 class DivisionCommand extends Command {
   @override
   void execute(List<num> stack) {
-    stack.last == 0
-        ? throw Exception('Cannot divide by zero')
-        : stack.add(stack.removeLast() / stack.removeLast());
+    if (stack.last == 0) {
+      throw Exception('Cannot divide by zero');
+    }
+    var last = stack.removeLast();
+    stack.add(stack.removeLast() / last);
   }
 
   @override
@@ -83,11 +83,12 @@ class ToPowerCommand extends Command {
   void execute(List<num> stack) {
     var toPower = stack.removeLast();
     var number = stack.removeLast();
+    var result = number;
 
-    for (var i = 0; i < toPower; i++) {
-      number *= number;
+    for (var i = 1; i < toPower; i++) {
+      result *= number;
     }
-    stack.add(number);
+    stack.add(result);
   }
 
   @override

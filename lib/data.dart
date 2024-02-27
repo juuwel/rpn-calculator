@@ -49,7 +49,7 @@ final List<String> buttons = [
 
 final Map<String, Command> commands = {
   '+': AddCommand(),
-  '-': SubstractCommand(),
+  '-': SubtractCommand(),
   'x': MultiplicationCommand(),
   '÷': DivisionCommand(),
   'x²': ToPowerCommand(),

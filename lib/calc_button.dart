@@ -35,12 +35,9 @@ class CalculatorButton extends StatelessWidget {
 
   _getButtonColor(String value, BuildContext context) {
     if (operations.contains(value)) {
-      return Theme.of(context).colorScheme.primary;
+      return Theme.of(context).colorScheme.secondary;
     } else if (utilityOperations.contains(value)) {
-      return Theme
-          .of(context)
-          .colorScheme
-          .secondary;
+      return Theme.of(context).colorScheme.primary;
     } else {
       return Colors.grey[400];
     }
