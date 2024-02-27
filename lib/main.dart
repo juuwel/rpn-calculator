@@ -24,7 +24,9 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         // Define the default brightness and colors.
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.purple,
+          primary: Colors.blue,
+          secondary: Colors.blueGrey,
+          seedColor: Colors.blue,
           // ···
           brightness: Brightness.dark,
         ),
@@ -62,19 +64,22 @@ class _MyAppState extends State<MyApp> {
   Widget buildDisplay() {
     return Expanded(
       flex: 3,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[800],
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(16),
-            bottomRight: Radius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[800],
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(16),
+              bottomRight: Radius.circular(16),
+            ),
           ),
-        ),
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(16),
-        child: Text(
-          stack.join(' '),
-          style: const TextStyle(fontSize: 48),
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            stack.join(' '),
+            style: const TextStyle(fontSize: 48),
+          ),
         ),
       ),
     );
@@ -91,14 +96,20 @@ class _MyAppState extends State<MyApp> {
 
   _applyCommand(String value) {
     var command = commands[value]!;
-
-    setState(() {
-      command.apply(stack);
-    });
+    try {
+      setState(() {
+        command.apply(stack);
+      });
+    } on Exception catch (e) {
+      if (e.toString() == 'Exception: Not enough operands') {
+       return;
+      }
+      rethrow;
+    }
   }
 
   _onButtonPressed(String value) {
-    if (operations.contains(value)) {
+    if (operations.contains(value) || utilityOperations.contains(value)) {
       _applyCommand(value);
     } else {
       _addNumberToStack(value);

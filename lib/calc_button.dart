@@ -16,10 +16,7 @@ class CalculatorButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color:
-              (operations.contains(value) || utilityOperations.contains(value))
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.grey[400],
+          color: _getButtonColor(value, context),
         ),
         child: Text(
           value,
@@ -34,5 +31,18 @@ class CalculatorButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _getButtonColor(String value, BuildContext context) {
+    if (operations.contains(value)) {
+      return Theme.of(context).colorScheme.primary;
+    } else if (utilityOperations.contains(value)) {
+      return Theme
+          .of(context)
+          .colorScheme
+          .secondary;
+    } else {
+      return Colors.grey[400];
+    }
   }
 }

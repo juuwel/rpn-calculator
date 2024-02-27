@@ -8,6 +8,7 @@ final List<String> operations = [
   '√',
   'x²'
 ];
+
 final List<String> utilityOperations = [
   'Enter',
   'C',
@@ -45,9 +46,14 @@ final List<String> buttons = [
   'Enter',
   '+',
 ];
+
 final Map<String, Command> commands = {
   '+': AddCommand(),
   '-': SubstractCommand(),
   'x': MultiplicationCommand(),
   '÷': DivisionCommand(),
+  'x²': ToPowerCommand(),
+  'C': ClearCommand(),
+  '←': BackspaceCommand(),
+  'Enter': EnterCommand(),
 };
