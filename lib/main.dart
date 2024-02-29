@@ -2,6 +2,9 @@ import 'package:calculator/calc_button.dart';
 import 'package:calculator/data.dart';
 import 'package:flutter/material.dart';
 
+// TODO: decimal numbers
+// TODO: negative numbers
+
 void main() {
   runApp(const MyApp());
 }
