@@ -2,6 +2,8 @@ import 'package:calculator/calc_button.dart';
 import 'package:calculator/data.dart';
 import 'package:flutter/material.dart';
 
+// TODO: root of operand
+// TODO: overflow with long results
 void main() {
   runApp(const MyApp());
 }
@@ -20,32 +22,66 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Calculator',
-      theme: ThemeData(
-        // Define the default brightness and colors.
-        colorScheme: ColorScheme.fromSeed(
-          primary: Colors.blue,
-          secondary: Colors.blueGrey,
-          seedColor: Colors.blue,
-          // ···
-          brightness: Brightness.dark,
-        ),
-      ),
-      home: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              buildDisplay(),
-              buildNumpad(context),
-            ],
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth < 700) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Calculator',
+          theme: ThemeData(
+            // Define the default brightness and colors.
+            colorScheme: ColorScheme.fromSeed(
+              primary: Colors.blue,
+              secondary: Colors.blueGrey,
+              seedColor: Colors.blue,
+              // ···
+              brightness: Brightness.dark,
+            ),
           ),
-        ),
-      ),
-    );
+          home: Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  buildDisplay(),
+                  buildNumpad(context),
+                ],
+              ),
+            ),
+          ),
+        );
+      } else {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Calculator',
+          theme: ThemeData(
+            // Define the default brightness and colors.
+            colorScheme: ColorScheme.fromSeed(
+              primary: Colors.blue,
+              secondary: Colors.blueGrey,
+              seedColor: Colors.blue,
+              // ···
+              brightness: Brightness.dark,
+            ),
+          ),
+          home: Scaffold(
+            body: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 700, maxHeight: 800),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    buildDisplay(),
+                    buildNumpad(context),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+    })
   }
 
   Widget buildNumpad(BuildContext context) {
@@ -117,7 +153,6 @@ class _MyAppState extends State<MyApp> {
       });
     } else if (operations.contains(value) ||
         utilityOperations.contains(value)) {
-
       if (value == '-' && numberToAdd == '0') {
         setState(() {
           numberToAdd = '-';
