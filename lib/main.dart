@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
           ),
         );
       }
-    })
+    });
   }
 
   Widget buildNumpad(BuildContext context) {
