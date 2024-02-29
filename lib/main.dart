@@ -2,9 +2,6 @@ import 'package:calculator/calc_button.dart';
 import 'package:calculator/data.dart';
 import 'package:flutter/material.dart';
 
-// TODO: decimal numbers
-// TODO: negative numbers
-
 void main() {
   runApp(const MyApp());
 }
@@ -120,6 +117,14 @@ class _MyAppState extends State<MyApp> {
       });
     } else if (operations.contains(value) ||
         utilityOperations.contains(value)) {
+
+      if (value == '-' && numberToAdd == '0') {
+        setState(() {
+          numberToAdd = '-';
+        });
+        return;
+      }
+
       if (stack.isNotEmpty && numberToAdd != '0') {
         // In order to allow the user to make a calculation with the number that is currently being typed
         stack.add(num.parse(numberToAdd));
@@ -127,6 +132,15 @@ class _MyAppState extends State<MyApp> {
       }
       _applyCommand(value);
     } else {
+      if (value == '.') {
+        if (!numberToAdd.contains('.')) {
+          setState(() {
+            numberToAdd += value;
+          });
+        }
+        return;
+      }
+
       var numericValue = num.tryParse(value);
       if (numericValue == null) return;
 
