@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
           ),
           home: Scaffold(
             body: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 700, maxHeight: 800),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
