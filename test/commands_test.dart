@@ -10,14 +10,28 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AddCommand', () {
-    test('Apply success', () {
+    test('Add with positive numbers', () {
       final List<num> stack = [1, 2];
       final command = AddCommand();
       command.apply(stack);
       expect(stack, [3]);
     });
 
-    test('Apply with not enough operands should throw an exception', () {
+    test('Add with negative numbers', () {
+      final List<num> stack = [-1, -2];
+      final command = AddCommand();
+      command.apply(stack);
+      expect(stack, [-3]);
+    });
+
+    test('Add with mixed numbers', () {
+      final List<num> stack = [-1, 2];
+      final command = AddCommand();
+      command.apply(stack);
+      expect(stack, [1]);
+    });
+
+    test('Add with not enough operands should throw an exception', () {
       final List<num> stack = [1];
       final command = AddCommand();
       expect(() => command.apply(stack), _throwsExceptionWithMessage('Exception: Not enough operands'));
@@ -25,11 +39,25 @@ void main() {
   });
 
   group('SubtractCommand', () {
-    test('Apply success', () {
+    test('Subtract with positive numbers', () {
       final List<num> stack = [1, 2];
       final command = SubtractCommand();
       command.apply(stack);
       expect(stack, [-1]);
+    });
+
+    test('Subtract with negative numbers', () {
+      final List<num> stack = [-1, -2];
+      final command = SubtractCommand();
+      command.apply(stack);
+      expect(stack, [1]);
+    });
+
+    test('Subtract with mixed numbers', () {
+      final List<num> stack = [-1, 2];
+      final command = SubtractCommand();
+      command.apply(stack);
+      expect(stack, [-3]);
     });
 
     test('Apply with not enough operands should throw an exception', () {
@@ -40,11 +68,25 @@ void main() {
   });
 
   group('MultiplicationCommand', () {
-    test('Apply success', () {
+    test('Multiplication with positive numbers', () {
       final List<num> stack = [2, 3];
       final command = MultiplicationCommand();
       command.apply(stack);
       expect(stack, [6]);
+    });
+
+    test('Multiplication with negative numbers', () {
+      final List<num> stack = [-2, -3];
+      final command = MultiplicationCommand();
+      command.apply(stack);
+      expect(stack, [6]);
+    });
+
+    test('Multiplication with mixed numbers', () {
+      final List<num> stack = [2, -3];
+      final command = MultiplicationCommand();
+      command.apply(stack);
+      expect(stack, [-6]);
     });
 
     test('Apply with not enough operands should throw an exception', () {
@@ -55,11 +97,25 @@ void main() {
   });
 
   group('DivisionCommand', () {
-    test('Apply success', () {
+    test('Division with positive numbers', () {
       final List<num> stack = [6, 3];
       final command = DivisionCommand();
       command.apply(stack);
       expect(stack, [2.0]);
+    });
+
+    test('Division with negative numbers', () {
+      final List<num> stack = [-6, -3];
+      final command = DivisionCommand();
+      command.apply(stack);
+      expect(stack, [2.0]);
+    });
+
+    test('Division with mixed numbers', () {
+      final List<num> stack = [6, -3];
+      final command = DivisionCommand();
+      command.apply(stack);
+      expect(stack, [-2.0]);
     });
 
     test('Apply with not enough operands should throw an exception', () {
@@ -76,11 +132,46 @@ void main() {
   });
 
   group('To Power', () {
-    test('To power of 2', () {
+    test('4 to power of 2', () {
       final List<num> stack = [4, 2];
       final command = ToPowerCommand();
       command.apply(stack);
       expect(stack, [16]);
+    });
+
+    test('4 to power of -2', () {
+      final List<num> stack = [4, -2];
+      final command = ToPowerCommand();
+      command.apply(stack);
+      expect(stack, [1/16]);
+    });
+
+    test('4 to power of -1', () {
+      final List<num> stack = [4, -1];
+      final command = ToPowerCommand();
+      command.apply(stack);
+      expect(stack, [1/4]);
+    });
+
+    test('4 to power of 1', () {
+      final List<num> stack = [4, 1];
+      final command = ToPowerCommand();
+      command.apply(stack);
+      expect(stack, [4]);
+    });
+
+    test('4 to power of 0', () {
+      final List<num> stack = [4, 1];
+      final command = ToPowerCommand();
+      command.apply(stack);
+      expect(stack, [4]);
+    });
+
+    test('-4 to power of -1', () {
+      final List<num> stack = [-4, -1];
+      final command = ToPowerCommand();
+      command.apply(stack);
+      expect(stack, [-1/4]);
     });
 
     test('Apply with 0 should throw an exception', () {

@@ -83,10 +83,25 @@ class ToPowerCommand extends Command {
   void execute(List<num> stack) {
     var toPower = stack.removeLast();
     var number = stack.removeLast();
+    bool isNegative = toPower < 0;
     var result = number;
 
-    for (var i = 1; i < toPower; i++) {
-      result *= number;
+    if (toPower == 0) {
+      result = 1;
+    } else if (toPower == 1) {
+      result = number;
+    } else {
+      if (isNegative) {
+        toPower = -toPower;
+      }
+
+      for (var i = 1; i < toPower; i++) {
+        result *= number;
+      }
+
+      if (isNegative) {
+        result = 1 / result;
+      }
     }
     stack.add(result);
   }
@@ -125,10 +140,8 @@ class BackspaceCommand extends UtilityCommand {
 
 class EnterCommand extends UtilityCommand {
   @override
-  void execute(List<num> stack) {
-
-  }
+  void execute(List<num> stack) {}
 
   @override
-  void unapply(List<num> stack) { }
+  void unapply(List<num> stack) {}
 }
