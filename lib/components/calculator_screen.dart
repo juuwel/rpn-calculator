@@ -19,14 +19,37 @@ class CalculatorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      final height = constraints.maxHeight;
-      if (true) {
+      if (constraints.maxWidth < 1200) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Calculator',
           theme: _buildThemeData(),
           home: Scaffold(
-            body: _buildBody(height),
+            body: _buildBody(),
+          ),
+        );
+      } else {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Calculator',
+          theme: _buildThemeData(),
+          home: Scaffold(
+            body: Container(
+              color: Colors.white10,
+              child: Center(
+                child: SizedBox(
+                  width: 400,
+                  height: 800,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.grey[900],
+                    ),
+                    child: _buildBody(),
+                  ),
+                ),
+              ),
+            ),
           ),
         );
       }
@@ -46,7 +69,7 @@ class CalculatorScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(num height) {
+  Widget _buildBody() {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final screenHeight = constraints.maxHeight;
