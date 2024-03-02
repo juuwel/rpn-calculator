@@ -11,6 +11,7 @@ class CalculatorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      key: Key(value),
       onTap: () => onPressed(value),
       child: Container(
         alignment: Alignment.center,
