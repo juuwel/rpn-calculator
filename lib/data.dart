@@ -13,13 +13,15 @@ final List<String> utilityOperations = [
   'Enter',
   'C',
   '←',
+  'Revert'
 ];
 
 final List<String> buttons = [
   // Zeroth row
-  'x²',
-  '√',
-  'C',
+  'AC',
+  'Back',
+  '+/-',
+  '←',
   '←',
 
   // First row
@@ -27,24 +29,28 @@ final List<String> buttons = [
   '8',
   '9',
   '÷',
+  'x²',
 
   // Second row
   '4',
   '5',
   '6',
   'x',
+  '√',
 
   // Third row
   '1',
   '2',
   '3',
   '-',
+  'Enter',
 
   // Fourth row
   '0',
+  '0',
   '.',
-  'Enter',
   '+',
+  'Enter',
 ];
 
 final Map<String, Command> commands = {

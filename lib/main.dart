@@ -1,8 +1,9 @@
 import 'package:calculator/calc_button.dart';
+import 'package:calculator/calculations.dart';
 import 'package:calculator/data.dart';
 import 'package:flutter/material.dart';
 
-// TODO: root of operand
+// TODO: square root
 // TODO: overflow with long results
 void main() {
   runApp(const MyApp());
@@ -17,6 +18,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final List<num> stack = [];
+  final List<Command> executedCommands = [];
   String numberToAdd = '0';
 
   // This widget is the root of your application.
@@ -88,7 +90,7 @@ class _MyAppState extends State<MyApp> {
     return Expanded(
       flex: 5,
       child: GridView.count(
-        crossAxisCount: 4,
+        crossAxisCount: 5,
         padding: const EdgeInsets.all(5),
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
@@ -136,6 +138,7 @@ class _MyAppState extends State<MyApp> {
     try {
       setState(() {
         command.apply(stack);
+        executedCommands.add(command);
       });
     } on Exception catch (e) {
       if (e.toString() == 'Exception: Not enough operands') {
@@ -146,14 +149,21 @@ class _MyAppState extends State<MyApp> {
   }
 
   _onButtonPressed(String value) {
-    if (value == 'Enter') {
-      setState(() {
-        stack.add(num.parse(numberToAdd));
-        numberToAdd = '0';
-      });
-    } else if (operations.contains(value) ||
-        utilityOperations.contains(value)) {
-      if (value == '-' && numberToAdd == '0') {
+    // Utility operations
+    if (operations.contains(value) || utilityOperations.contains(value)) {
+      if (value == 'Enter') {
+        setState(() {
+          stack.add(num.parse(numberToAdd));
+          numberToAdd = '0';
+        });
+      } else if (value == 'Revert') {
+        if (executedCommands.isNotEmpty) {
+          setState(() {
+            var command = executedCommands.removeLast();
+            command.unapply(stack);
+          });
+        }
+      } else if (value == '-' && numberToAdd == '0') {
         setState(() {
           numberToAdd = '-';
         });

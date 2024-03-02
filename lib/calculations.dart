@@ -1,24 +1,31 @@
 abstract class Command {
-  final executedCommands = [];
+  List<num> _lastTwoNumbers = [];
 
   void apply(List<num> stack) {
     if (stack.length < 2) {
       throw Exception('Not enough operands');
     }
-    executedCommands.add(stack);
+    _lastTwoNumbers = (stack.sublist(stack.length - 2));
     execute(stack);
   }
 
   void execute(List<num> stack);
 
-  void unapply(List<num> stack);
+  void unapply(List<num> stack) {
+    stack.removeLast();
+    stack.addAll(_lastTwoNumbers);
+  }
 }
 
 abstract class UtilityCommand extends Command {
   @override
   void apply(List<num> stack) {
-    executedCommands.add(stack);
     execute(stack);
+  }
+
+  @override
+  void unapply(List<num> stack) {
+    // This command is not undoable
   }
 }
 
@@ -28,25 +35,15 @@ class AddCommand extends Command {
   void execute(List<num> stack) {
     stack.add(stack.removeLast() + stack.removeLast());
   }
-
-  @override
-  void unapply(List<num> stack) {
-    // TODO: implement unapply
-  }
 }
 
 class SubtractCommand extends Command {
   @override
   void execute(List<num> stack) {
     // calling removeLast() twice will get the numbers in the wrong order,
-    // as we need to substract the last number from the second to last number
+    // as we need to subtract the last number from the second to last number
     var last = stack.removeLast();
     stack.add(stack.removeLast() - last);
-  }
-
-  @override
-  void unapply(List<num> stack) {
-    // TODO: implement unapply
   }
 }
 
@@ -54,11 +51,6 @@ class MultiplicationCommand extends Command {
   @override
   void execute(List<num> stack) {
     stack.add(stack.removeLast() * stack.removeLast());
-  }
-
-  @override
-  void unapply(List<num> stack) {
-    // TODO: implement unapply
   }
 }
 
@@ -70,11 +62,6 @@ class DivisionCommand extends Command {
     }
     var last = stack.removeLast();
     stack.add(stack.removeLast() / last);
-  }
-
-  @override
-  void unapply(List<num> stack) {
-    // TODO: implement unapply
   }
 }
 
@@ -105,11 +92,6 @@ class ToPowerCommand extends Command {
     }
     stack.add(result);
   }
-
-  @override
-  void unapply(List<num> stack) {
-    // TODO: implement unapply
-  }
 }
 
 /* UTILITY COMMANDS */
@@ -117,11 +99,6 @@ class ClearCommand extends UtilityCommand {
   @override
   void execute(List<num> stack) {
     stack.clear();
-  }
-
-  @override
-  void unapply(List<num> stack) {
-    // TODO: implement unapply
   }
 }
 
@@ -131,17 +108,9 @@ class BackspaceCommand extends UtilityCommand {
     if (stack.isEmpty) return;
     stack.removeLast();
   }
-
-  @override
-  void unapply(List<num> stack) {
-    // TODO: implement unapply
-  }
 }
 
 class EnterCommand extends UtilityCommand {
   @override
   void execute(List<num> stack) {}
-
-  @override
-  void unapply(List<num> stack) {}
 }
