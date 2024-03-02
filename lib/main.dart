@@ -1,9 +1,10 @@
-import 'package:calculator/calc_button.dart';
 import 'package:calculator/calculations.dart';
+import 'package:calculator/calculator_screen.dart';
 import 'package:calculator/data.dart';
+import 'package:calculator/display.dart';
 import 'package:flutter/material.dart';
+import 'package:calculator/numpad.dart';
 
-// TODO: square root
 // TODO: overflow with long results
 void main() {
   runApp(const MyApp());
@@ -24,111 +25,23 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth < 768) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Calculator',
-          theme: ThemeData(
-            // Define the default brightness and colors.
-            colorScheme: ColorScheme.fromSeed(
-              primary: Colors.blue,
-              secondary: Colors.blueGrey,
-              seedColor: Colors.blue,
-              // ···
-              brightness: Brightness.dark,
-            ),
-          ),
-          home: Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  buildDisplay(),
-                  buildNumpad(context),
-                ],
-              ),
-            ),
-          ),
-        );
-      } else {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Calculator',
-          theme: ThemeData(
-            // Define the default brightness and colors.
-            colorScheme: ColorScheme.fromSeed(
-              primary: Colors.blue,
-              secondary: Colors.blueGrey,
-              seedColor: Colors.blue,
-              // ···
-              brightness: Brightness.dark,
-            ),
-          ),
-          home: Scaffold(
-            body: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 768),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    buildDisplay(),
-                    buildNumpad(context),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      }
-    });
-  }
-
-  Widget buildNumpad(BuildContext context) {
-    return Expanded(
-      flex: 5,
-      child: GridView.count(
-        crossAxisCount: 5,
-        padding: const EdgeInsets.all(5),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        children: buttons.map((String value) {
-          return CalculatorButton(
-            value: value,
-            onPressed: (value) => _onButtonPressed(value),
-          );
-        }).toList(),
-      ),
+    return CalculatorScreen(
+      numberToAdd: numberToAdd,
+      stack: stack,
+      executedCommands: executedCommands,
+      onButtonPressed: _onButtonPressed,
     );
   }
 
-  Widget buildDisplay() {
-    return Expanded(
-      flex: 3,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.grey[800],
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(16),
-              bottomRight: Radius.circular(16),
-            ),
-          ),
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Text(
-                "[ ${stack.join(', ')} ]",
-                style: const TextStyle(fontSize: 48),
-              ),
-              Text(numberToAdd, style: const TextStyle(fontSize: 48)),
-            ],
-          ),
-        ),
+  Widget buildBody() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Display(numberToAdd: numberToAdd, stack: stack),
+          Numpad(onButtonPressed: _onButtonPressed),
+        ],
       ),
     );
   }
@@ -193,14 +106,14 @@ class _MyAppState extends State<MyApp> {
           });
         }
         break;
-        case 'Revert':
-          if (executedCommands.isNotEmpty) {
-            setState(() {
-              var command = executedCommands.removeLast();
-              command.unapply(stack);
-            });
-          }
-          break;
+      case 'Revert':
+        if (executedCommands.isNotEmpty) {
+          setState(() {
+            var command = executedCommands.removeLast();
+            command.unapply(stack);
+          });
+        }
+        break;
       case '+/-':
         if (numberToAdd == '0') {
           setState(() {
