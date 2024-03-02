@@ -83,9 +83,29 @@ class ToPowerCommand extends Command {
 }
 
 class SquareRootCommand extends Command {
+  @override void apply(List<num> stack) {
+    if (stack.isEmpty) {
+      throw Exception('Not enough operands');
+    }
+    var number = stack.removeLast();
+    if (number < 0) {
+      throw Exception('Cannot calculate square root of a negative number');
+    }
+    stack.add(number);
+    execute(stack);
+  }
+
   @override
   void execute(List<num> stack) {
+    var number = stack.removeLast();
+    double guess = number / 2.0;
+    double precision = 0.00001; // You can adjust this value for more or less precision
 
+    while ((guess * guess - number).abs() > precision) {
+      guess = (guess + (number / guess)) / 2;
+    }
+
+    stack.add(guess);
   }
 }
 
