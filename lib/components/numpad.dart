@@ -9,20 +9,22 @@ class Numpad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 5,
-      child: GridView.count(
+    return LayoutBuilder(builder: (context, constraints) {
+      final buttonSize = constraints.maxHeight / 5;
+
+      return GridView.count(
         crossAxisCount: 5,
         padding: const EdgeInsets.all(5),
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
+        childAspectRatio: buttonSize / buttonSize,
         children: buttons.map((String value) {
           return CalculatorButton(
             value: value,
             onPressed: (value) => onButtonPressed(value),
           );
         }).toList(),
-      ),
-    );
+      );
+    });
   }
 }

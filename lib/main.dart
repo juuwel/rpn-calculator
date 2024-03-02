@@ -5,7 +5,8 @@ import 'package:calculator/data.dart';
 import 'package:calculator/logic/calculations.dart';
 import 'package:flutter/material.dart';
 
-// TODO: overflow with long results
+// TODO: overflow with long results and overall styling
+// TODO: big screens
 void main() {
   runApp(const MyApp());
 }

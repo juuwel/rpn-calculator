@@ -8,33 +8,31 @@ class Display extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 3,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.grey[800],
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(16),
-              bottomRight: Radius.circular(16),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[800],
+          borderRadius: const BorderRadius.all(
+            Radius.circular(16),
+          ),
+        ),
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              key: const Key("Display"),
+              "[ ${stack.join(', ')} ]",
+              style: const TextStyle(fontSize: 48),
             ),
-          ),
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Text(
-                key: const Key("Display"),
-                "[ ${stack.join(', ')} ]",
-                style: const TextStyle(fontSize: 48),
-              ),
-              Text(
-                  key: const Key("NumberToAdd"),
-                  numberToAdd,
-                  style: const TextStyle(fontSize: 48)),
-            ],
-          ),
+            Text(
+                key: const Key("NumberToAdd"),
+                numberToAdd,
+                style: const TextStyle(fontSize: 48)),
+          ],
         ),
       ),
     );

@@ -19,25 +19,14 @@ class CalculatorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth < 768) {
+      final height = constraints.maxHeight;
+      if (true) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Calculator',
           theme: _buildThemeData(),
           home: Scaffold(
-            body: _buildBody(),
-          ),
-        );
-      } else {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Calculator',
-          theme: _buildThemeData(),
-          home: Scaffold(
-            body: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 768),
-              child: _buildBody(),
-            ),
+            body: _buildBody(height),
           ),
         );
       }
@@ -57,16 +46,32 @@ class CalculatorScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Display(numberToAdd: numberToAdd, stack: stack),
-          Numpad(onButtonPressed: onButtonPressed),
-        ],
-      ),
+  Widget _buildBody(num height) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final screenHeight = constraints.maxHeight;
+        final screenWidth = constraints.maxWidth;
+        final numpadHeight = screenWidth / 5 * 5;
+        final displayHeight = screenHeight - numpadHeight - 40; // top spacing
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              const SizedBox(height: 40),
+              SizedBox(
+                height: displayHeight,
+                child: Display(numberToAdd: numberToAdd, stack: stack),
+              ),
+              SizedBox(
+                height: numpadHeight,
+                child: Numpad(onButtonPressed: onButtonPressed),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
