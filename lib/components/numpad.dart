@@ -1,11 +1,11 @@
-import 'package:calculator/calc_button.dart';
+import 'package:calculator/components/calc_button.dart';
 import 'package:calculator/data.dart';
 import 'package:flutter/material.dart';
 
 class Numpad extends StatelessWidget {
   final Function(String) onButtonPressed;
 
-  Numpad({super.key, required this.onButtonPressed});
+  const Numpad({super.key, required this.onButtonPressed});
 
   @override
   Widget build(BuildContext context) {

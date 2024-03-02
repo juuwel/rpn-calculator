@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Display extends StatelessWidget {
-  String numberToAdd = '0';
-  List<num> stack = [];
+  final String numberToAdd;
+  final List<num> stack;
 
   Display({super.key, required this.numberToAdd, required this.stack});
 

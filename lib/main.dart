@@ -1,9 +1,9 @@
-import 'package:calculator/calculations.dart';
-import 'package:calculator/calculator_screen.dart';
+import 'package:calculator/components/calculator_screen.dart';
+import 'package:calculator/components/display.dart';
+import 'package:calculator/components/numpad.dart';
 import 'package:calculator/data.dart';
-import 'package:calculator/display.dart';
+import 'package:calculator/logic/calculations.dart';
 import 'package:flutter/material.dart';
-import 'package:calculator/numpad.dart';
 
 // TODO: overflow with long results
 void main() {

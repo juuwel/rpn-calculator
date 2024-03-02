@@ -5,7 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:calculator/calculations.dart';
+import 'package:calculator/logic/calculations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -181,19 +181,18 @@ void main() {
     });
   });
 
-  group('Utility commands', () {
-    test('Clear', () {
-      final List<num> stack = [1, 2, 3];
-      final command = ClearCommand();
+  group('Square root', () {
+    test('Square root of 4', () {
+      final List<num> stack = [4];
+      final command = SquareRootCommand();
       command.apply(stack);
-      expect(stack, []);
+      expect(stack, [2.0]);
     });
 
-    test('Backspace', () {
-      final List<num> stack = [1, 2, 3];
-      final command = BackspaceCommand();
-      command.apply(stack);
-      expect(stack, [1, 2]);
+    test('Square root of -4 should throw an exception', () {
+      final List<num> stack = [-4];
+      final command = SquareRootCommand();
+      expect(() => command.apply(stack), _throwsExceptionWithMessage('Exception: Cannot calculate square root of a negative number'));
     });
   });
 }

@@ -1,4 +1,4 @@
-import 'package:calculator/calculations.dart';
+import 'package:calculator/logic/calculations.dart';
 
 final List<String> operations = [
   '+',

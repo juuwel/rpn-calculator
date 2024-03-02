@@ -1,6 +1,6 @@
-import 'package:calculator/calculations.dart';
-import 'package:calculator/display.dart';
-import 'package:calculator/numpad.dart';
+import 'package:calculator/components/display.dart';
+import 'package:calculator/components/numpad.dart';
+import 'package:calculator/logic/calculations.dart';
 import 'package:flutter/material.dart';
 
 class CalculatorScreen extends StatelessWidget {
