@@ -17,18 +17,6 @@ abstract class Command {
   }
 }
 
-abstract class UtilityCommand extends Command {
-  @override
-  void apply(List<num> stack) {
-    execute(stack);
-  }
-
-  @override
-  void unapply(List<num> stack) {
-    // This command is not undoable
-  }
-}
-
 /* MATH COMMANDS */
 class AddCommand extends Command {
   @override
@@ -94,18 +82,11 @@ class ToPowerCommand extends Command {
   }
 }
 
-/* UTILITY COMMANDS */
-class ClearCommand extends UtilityCommand {
+class SquareRootCommand extends Command {
   @override
   void execute(List<num> stack) {
-    stack.clear();
+
   }
 }
 
-class BackspaceCommand extends UtilityCommand {
-  @override
-  void execute(List<num> stack) {
-    if (stack.isEmpty) return;
-    stack.removeLast();
-  }
-}
+

@@ -11,19 +11,20 @@ final List<String> operations = [
 
 final List<String> utilityOperations = [
   'Enter',
-  'C',
   '←',
-  'Back',
+  'Pop',
   '+/-',
-  'AC'
+  'AC',
+  'Undo',
+  '1/x'
 ];
 
 final List<String> buttons = [
   // Zeroth row
   'AC',
-  'Back',
+  'Pop',
+  'Undo',
   '+/-',
-  '←',
   '←',
 
   // First row
@@ -45,11 +46,11 @@ final List<String> buttons = [
   '2',
   '3',
   '-',
-  'Enter',
+  '1/x',
 
   // Fourth row
   '0',
-  '0',
+  '',
   '.',
   '+',
   'Enter',
@@ -61,6 +62,5 @@ final Map<String, Command> commands = {
   'x': MultiplicationCommand(),
   '÷': DivisionCommand(),
   'x²': ToPowerCommand(),
-  'C': ClearCommand(),
-  '←': BackspaceCommand(),
+  '√': SquareRootCommand(),
 };

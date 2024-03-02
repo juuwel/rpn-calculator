@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth < 700) {
+      if (constraints.maxWidth < 768) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Calculator',
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
           ),
           home: Scaffold(
             body: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 500),
+              constraints: const BoxConstraints(maxWidth: 768),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -150,36 +150,10 @@ class _MyAppState extends State<MyApp> {
 
   _onButtonPressed(String value) {
     // Utility operations
-    if (operations.contains(value) || utilityOperations.contains(value)) {
-      if (value == 'Enter' && numberToAdd != '0') {
-        setState(() {
-          stack.add(num.parse(numberToAdd));
-          numberToAdd = '0';
-        });
-      } else if (value == 'Revert') {
-        if (executedCommands.isNotEmpty) {
-          setState(() {
-            var command = executedCommands.removeLast();
-            command.unapply(stack);
-          });
-        }
-      } else if (value == '+/-') {
-        if (numberToAdd == '0') {
-          setState(() {
-            numberToAdd = '-';
-          });
-        } else if (numberToAdd.startsWith('-')) {
-          setState(() {
-            numberToAdd = numberToAdd.substring(1);
-          });
-        } else {
-          setState(() {
-            numberToAdd = '-$numberToAdd';
-          });
-        }
-        return;
-      }
-
+    if (utilityOperations.contains(value)) {
+      _handleUtilityOperations(value);
+      return;
+    } else if (operations.contains(value)) {
       if (stack.isNotEmpty && numberToAdd != '0') {
         // In order to allow the user to make a calculation with the number that is currently being typed
         stack.add(num.parse(numberToAdd));
@@ -206,6 +180,81 @@ class _MyAppState extends State<MyApp> {
           numberToAdd += value;
         }
       });
+    }
+  }
+
+  void _handleUtilityOperations(String value) {
+    switch (value) {
+      case 'Enter':
+        if (numberToAdd != '0') {
+          setState(() {
+            stack.add(num.parse(numberToAdd));
+            numberToAdd = '0';
+          });
+        }
+        break;
+        case 'Revert':
+          if (executedCommands.isNotEmpty) {
+            setState(() {
+              var command = executedCommands.removeLast();
+              command.unapply(stack);
+            });
+          }
+          break;
+      case '+/-':
+        if (numberToAdd == '0') {
+          setState(() {
+            numberToAdd = '-';
+          });
+        } else if (numberToAdd.startsWith('-')) {
+          setState(() {
+            numberToAdd = numberToAdd.substring(1);
+          });
+        } else {
+          setState(() {
+            numberToAdd = '-$numberToAdd';
+          });
+        }
+        break;
+      case 'AC':
+        setState(() {
+          stack.clear();
+          numberToAdd = '0';
+          executedCommands.clear();
+        });
+        break;
+      case '←':
+        setState(() {
+          if (numberToAdd.length > 1) {
+            numberToAdd = numberToAdd.substring(0, numberToAdd.length - 1);
+          } else {
+            numberToAdd = '0';
+          }
+        });
+        break;
+      case 'Pop':
+        setState(() {
+          if (stack.isNotEmpty) {
+            stack.removeLast();
+          }
+        });
+        break;
+      case 'Undo':
+        setState(() {
+          if (executedCommands.isNotEmpty) {
+            var command = executedCommands.removeLast();
+            command.unapply(stack);
+          }
+        });
+        break;
+      case '1/x':
+        if (numberToAdd == '0') {
+          return;
+        }
+        setState(() {
+          numberToAdd = (1 / num.parse(numberToAdd)).toString();
+        });
+        break;
     }
   }
 }
