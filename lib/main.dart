@@ -151,7 +151,7 @@ class _MyAppState extends State<MyApp> {
   _onButtonPressed(String value) {
     // Utility operations
     if (operations.contains(value) || utilityOperations.contains(value)) {
-      if (value == 'Enter') {
+      if (value == 'Enter' && numberToAdd != '0') {
         setState(() {
           stack.add(num.parse(numberToAdd));
           numberToAdd = '0';
@@ -163,10 +163,20 @@ class _MyAppState extends State<MyApp> {
             command.unapply(stack);
           });
         }
-      } else if (value == '-' && numberToAdd == '0') {
-        setState(() {
-          numberToAdd = '-';
-        });
+      } else if (value == '+/-') {
+        if (numberToAdd == '0') {
+          setState(() {
+            numberToAdd = '-';
+          });
+        } else if (numberToAdd.startsWith('-')) {
+          setState(() {
+            numberToAdd = numberToAdd.substring(1);
+          });
+        } else {
+          setState(() {
+            numberToAdd = '-$numberToAdd';
+          });
+        }
         return;
       }
 

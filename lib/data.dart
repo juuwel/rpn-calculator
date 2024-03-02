@@ -13,7 +13,9 @@ final List<String> utilityOperations = [
   'Enter',
   'C',
   '←',
-  'Revert'
+  'Back',
+  '+/-',
+  'AC'
 ];
 
 final List<String> buttons = [
@@ -61,5 +63,4 @@ final Map<String, Command> commands = {
   'x²': ToPowerCommand(),
   'C': ClearCommand(),
   '←': BackspaceCommand(),
-  'Enter': EnterCommand(),
 };

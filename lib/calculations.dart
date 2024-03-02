@@ -109,8 +109,3 @@ class BackspaceCommand extends UtilityCommand {
     stack.removeLast();
   }
 }
-
-class EnterCommand extends UtilityCommand {
-  @override
-  void execute(List<num> stack) {}
-}
