@@ -74,8 +74,17 @@ class CalculatorScreen extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         final screenHeight = constraints.maxHeight;
         final screenWidth = constraints.maxWidth;
-        final numpadHeight = screenWidth / 5 * 5;
+
+        // Screen width on phones, so it's a square, 60% on tablets
+        final numpadHeight = constraints.maxWidth > 768
+            ? screenHeight * 0.6
+            : screenWidth;
+
         final displayHeight = screenHeight - numpadHeight - 40; // top spacing
+
+        final buttonAspectRatio = constraints.maxWidth > 768
+            ? constraints.maxWidth / numpadHeight
+            : 1 / 1;
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -89,7 +98,7 @@ class CalculatorScreen extends StatelessWidget {
               ),
               SizedBox(
                 height: numpadHeight,
-                child: Numpad(onButtonPressed: onButtonPressed),
+                child: Numpad(onButtonPressed: onButtonPressed,  buttonAspectRatio: buttonAspectRatio),
               ),
             ],
           ),

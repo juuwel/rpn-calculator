@@ -1,12 +1,10 @@
 import 'package:calculator/components/calculator_screen.dart';
-import 'package:calculator/components/display.dart';
-import 'package:calculator/components/numpad.dart';
 import 'package:calculator/data.dart';
 import 'package:calculator/logic/calculations.dart';
 import 'package:flutter/material.dart';
 
-// TODO: overflow with long results and overall styling
-// TODO: big screens
+// TODO: overflow with long results and overall styling (scrollable display, etc.)
+// TODO: landscape mode
 void main() {
   runApp(const MyApp());
 }
@@ -31,19 +29,6 @@ class _MyAppState extends State<MyApp> {
       stack: stack,
       executedCommands: executedCommands,
       onButtonPressed: _onButtonPressed,
-    );
-  }
-
-  Widget buildBody() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Display(numberToAdd: numberToAdd, stack: stack),
-          Numpad(onButtonPressed: _onButtonPressed),
-        ],
-      ),
     );
   }
 

@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class Numpad extends StatelessWidget {
   final Function(String) onButtonPressed;
+  final double buttonAspectRatio;
 
-  const Numpad({super.key, required this.onButtonPressed});
+  const Numpad({super.key, required this.onButtonPressed, required this.buttonAspectRatio });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class Numpad extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: buttonSize / buttonSize,
+        childAspectRatio: buttonAspectRatio,
         children: buttons.map((String value) {
           return CalculatorButton(
             value: value,
