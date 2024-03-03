@@ -39,6 +39,11 @@ class _MyAppState extends State<MyApp> {
       });
     } on Exception catch (e) {
       if (e.toString() == 'Exception: Not enough operands') {
+        setState(() {
+          numberToAdd = stack.isEmpty
+              ? '0'
+              : stack.removeLast().toString();
+        });
         return;
       }
       rethrow;
@@ -90,14 +95,6 @@ class _MyAppState extends State<MyApp> {
           });
         }
         break;
-      case 'Revert':
-        if (executedCommands.isNotEmpty) {
-          setState(() {
-            var command = executedCommands.removeLast();
-            command.unapply(stack);
-          });
-        }
-        break;
       case '+/-':
         if (numberToAdd == '0') {
           setState(() {
@@ -141,6 +138,9 @@ class _MyAppState extends State<MyApp> {
           if (executedCommands.isNotEmpty) {
             var command = executedCommands.removeLast();
             command.unapply(stack);
+            numberToAdd = stack.isEmpty
+                ? '0'
+                : stack.removeLast().toString();
           }
         });
         break;

@@ -7,6 +7,13 @@ abstract class Command {
     }
     _lastTwoNumbers = (stack.sublist(stack.length - 2));
     execute(stack);
+
+    // Round all numbers with more than 10 decimal places
+    for (var i = 0; i < stack.length; i++) {
+      if (stack[i].toString().split('.').last.length > 10) {
+        stack[i] = double.parse(stack[i].toStringAsFixed(10));
+      }
+    }
   }
 
   void execute(List<num> stack);
@@ -14,6 +21,30 @@ abstract class Command {
   void unapply(List<num> stack) {
     stack.removeLast();
     stack.addAll(_lastTwoNumbers);
+  }
+}
+
+abstract class OneOperandCommand extends Command {
+  @override
+  void apply(List<num> stack) {
+    if (stack.isEmpty) {
+      throw Exception('Not enough operands');
+    }
+    _lastTwoNumbers = [stack.last];
+    execute(stack);
+
+    // Round all numbers with more than 10 decimal places
+    for (var i = 0; i < stack.length; i++) {
+      if (stack[i].toString().split('.').last.length > 10) {
+        stack[i] = double.parse(stack[i].toStringAsFixed(10));
+      }
+    }
+  }
+
+  @override
+  void unapply(List<num> stack) {
+    stack.removeLast();
+    stack.add(_lastTwoNumbers.first);
   }
 }
 
@@ -82,22 +113,14 @@ class ToPowerCommand extends Command {
   }
 }
 
-class SquareRootCommand extends Command {
-  @override void apply(List<num> stack) {
-    if (stack.isEmpty) {
-      throw Exception('Not enough operands');
-    }
+class SquareRootCommand extends OneOperandCommand {
+  @override
+  void execute(List<num> stack) {
     var number = stack.removeLast();
     if (number < 0) {
       throw Exception('Cannot calculate square root of a negative number');
     }
-    stack.add(number);
-    execute(stack);
-  }
 
-  @override
-  void execute(List<num> stack) {
-    var number = stack.removeLast();
     double guess = number / 2.0;
     double precision = 0.00001; // You can adjust this value for more or less precision
 
@@ -109,23 +132,14 @@ class SquareRootCommand extends Command {
   }
 }
 
-class FactorialCommand extends Command {
+class FactorialCommand extends OneOperandCommand {
   @override
-  void apply(List<num> stack) {
-    if (stack.isEmpty) {
-      throw Exception('Not enough operands');
-    }
+  void execute(List<num> stack) {
     var number = stack.removeLast();
     if (number < 0) {
       throw Exception('Cannot calculate factorial of a negative number');
     }
-    stack.add(number);
-    execute(stack);
-  }
 
-  @override
-  void execute(List<num> stack) {
-    var number = stack.removeLast();
     var result = 1;
     for (var i = 1; i <= number; i++) {
       result *= i;
@@ -134,22 +148,14 @@ class FactorialCommand extends Command {
   }
 }
 
-class InvertCommand extends Command {
+class InvertCommand extends OneOperandCommand {
   @override
-  void apply(List<num> stack) {
-    if (stack.isEmpty) {
-      throw Exception('Not enough operands');
-    }
+  void execute(List<num> stack) {
     var number = stack.removeLast();
     if (number == 0) {
       throw Exception('Cannot divide by zero');
     }
-    stack.add(number);
-    execute(stack);
-  }
 
-  @override
-  void execute(List<num> stack) {
     stack.add(1 / stack.removeLast());
   }
 }
