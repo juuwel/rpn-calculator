@@ -109,4 +109,49 @@ class SquareRootCommand extends Command {
   }
 }
 
+class FactorialCommand extends Command {
+  @override
+  void apply(List<num> stack) {
+    if (stack.isEmpty) {
+      throw Exception('Not enough operands');
+    }
+    var number = stack.removeLast();
+    if (number < 0) {
+      throw Exception('Cannot calculate factorial of a negative number');
+    }
+    stack.add(number);
+    execute(stack);
+  }
+
+  @override
+  void execute(List<num> stack) {
+    var number = stack.removeLast();
+    var result = 1;
+    for (var i = 1; i <= number; i++) {
+      result *= i;
+    }
+    stack.add(result);
+  }
+}
+
+class InvertCommand extends Command {
+  @override
+  void apply(List<num> stack) {
+    if (stack.isEmpty) {
+      throw Exception('Not enough operands');
+    }
+    var number = stack.removeLast();
+    if (number == 0) {
+      throw Exception('Cannot divide by zero');
+    }
+    stack.add(number);
+    execute(stack);
+  }
+
+  @override
+  void execute(List<num> stack) {
+    stack.add(1 / stack.removeLast());
+  }
+}
+
 

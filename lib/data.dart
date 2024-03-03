@@ -6,7 +6,9 @@ final List<String> operations = [
   'x',
   '÷',
   '√',
-  'x²'
+  'xⁿ',
+  'x!',
+  '1/x',
 ];
 
 final List<String> utilityOperations = [
@@ -16,7 +18,6 @@ final List<String> utilityOperations = [
   '+/-',
   'AC',
   'Undo',
-  '1/x'
 ];
 
 final List<String> buttons = [
@@ -32,7 +33,7 @@ final List<String> buttons = [
   '8',
   '9',
   '÷',
-  'x²',
+  'xⁿ',
 
   // Second row
   '4',
@@ -46,14 +47,14 @@ final List<String> buttons = [
   '2',
   '3',
   '-',
-  '1/x',
+  'x!',
 
   // Fourth row
   '0',
-  '',
   '.',
-  '+',
   'Enter',
+  '1/x',
+  '+',
 ];
 
 final Map<String, Command> commands = {
@@ -61,6 +62,8 @@ final Map<String, Command> commands = {
   '-': SubtractCommand(),
   'x': MultiplicationCommand(),
   '÷': DivisionCommand(),
-  'x²': ToPowerCommand(),
+  'xⁿ': ToPowerCommand(),
   '√': SquareRootCommand(),
+  'x!': FactorialCommand(),
+  '1/x': InvertCommand(),
 };

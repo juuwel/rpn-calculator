@@ -94,7 +94,7 @@ void main() {
     await tester.tapByKey('4');
     await tester.tapByKey('Enter');
     await tester.tapByKey('2');
-    await tester.tapByKey('x²');
+    await tester.tapByKey('xⁿ');
 
     expect(find.displayText(), '[ 16 ]');
   });

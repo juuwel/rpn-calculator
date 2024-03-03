@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
       _handleUtilityOperations(value);
       return;
     } else if (operations.contains(value)) {
-      if (stack.isNotEmpty && numberToAdd != '0') {
+      if (numberToAdd != '0') {
         // In order to allow the user to make a calculation with the number that is currently being typed
         stack.add(num.parse(numberToAdd));
         numberToAdd = '0';
@@ -142,14 +142,6 @@ class _MyAppState extends State<MyApp> {
             var command = executedCommands.removeLast();
             command.unapply(stack);
           }
-        });
-        break;
-      case '1/x':
-        if (numberToAdd == '0') {
-          return;
-        }
-        setState(() {
-          numberToAdd = (1 / num.parse(numberToAdd)).toString();
         });
         break;
     }
