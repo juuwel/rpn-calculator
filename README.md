@@ -16,6 +16,8 @@ The calculator supports the following operations:
 7. **Factorial**: Calculates the factorial of a number. This is a `OneOperandCommand` operation.
 8. **1/x**: Calculates the reciprocal of a number. This is a `OneOperandCommand` operation.
 
+`OneOperandCommand` operation - it's applied to the number that's currently being put in.
+
 ## Utility Operations
 
 The calculator also supports several utility operations:
