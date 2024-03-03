@@ -11,7 +11,6 @@ class Numpad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      final buttonSize = constraints.maxHeight / 5;
 
       return GridView.count(
         crossAxisCount: 5,

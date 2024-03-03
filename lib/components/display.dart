@@ -23,15 +23,21 @@ class Display extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text(
-              key: const Key("Display"),
-              "[ ${stack.join(', ')} ]",
-              style: const TextStyle(fontSize: 48),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Text(
+                  key: const Key("Display"),
+                  "[ ${stack.join(', ')} ]",
+                  style: const TextStyle(fontSize: 48),
+                ),
+              ),
             ),
             Text(
-                key: const Key("NumberToAdd"),
-                numberToAdd,
-                style: const TextStyle(fontSize: 48)),
+              key: const Key("NumberToAdd"),
+              numberToAdd,
+              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.w500),
+            ),
           ],
         ),
       ),

@@ -3,8 +3,6 @@ import 'package:calculator/data.dart';
 import 'package:calculator/logic/calculations.dart';
 import 'package:flutter/material.dart';
 
-// TODO: overflow with long results and overall styling (scrollable display, etc.)
-// TODO: landscape mode
 void main() {
   runApp(const MyApp());
 }
