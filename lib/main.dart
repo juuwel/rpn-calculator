@@ -56,11 +56,9 @@ class _MyAppState extends State<MyApp> {
       _handleUtilityOperations(value);
       return;
     } else if (operations.contains(value)) {
-      if (numberToAdd != '0') {
-        // In order to allow the user to make a calculation with the number that is currently being typed
-        stack.add(num.parse(numberToAdd));
-        numberToAdd = '0';
-      }
+      // In order to allow the user to make a calculation with the number that is currently being typed
+      stack.add(num.parse(numberToAdd));
+      numberToAdd = '0';
       _applyCommand(value);
     } else {
       if (value == '.') {

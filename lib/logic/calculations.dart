@@ -156,7 +156,7 @@ class InvertCommand extends OneOperandCommand {
       throw Exception('Cannot divide by zero');
     }
 
-    stack.add(1 / stack.removeLast());
+    stack.add(1 / number);
   }
 }
 

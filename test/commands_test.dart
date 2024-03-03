@@ -195,6 +195,62 @@ void main() {
       expect(() => command.apply(stack), _throwsExceptionWithMessage('Exception: Cannot calculate square root of a negative number'));
     });
   });
+
+  group('Factorial', () {
+    test('Factorial of 4', () {
+      final List<num> stack = [4];
+      final command = FactorialCommand();
+      command.apply(stack);
+      expect(stack, [24]);
+    });
+
+    test('Factorial of 0', () {
+      final List<num> stack = [0];
+      final command = FactorialCommand();
+      command.apply(stack);
+      expect(stack, [1]);
+    });
+
+    test('Factorial of -4 should throw an exception', () {
+      final List<num> stack = [-4];
+      final command = FactorialCommand();
+      expect(() => command.apply(stack), _throwsExceptionWithMessage('Exception: Cannot calculate factorial of a negative number'));
+    });
+  });
+
+  group('InvertCommand', () {
+    test('Invert positive number', () {
+      final List<num> stack = [4];
+      final command = InvertCommand();
+      command.apply(stack);
+      expect(stack, [0.25]);
+    });
+
+    test('Invert negative number', () {
+      final List<num> stack = [-4];
+      final command = InvertCommand();
+      command.apply(stack);
+      expect(stack, [-0.25]);
+    });
+
+    test('Invert 0 should throw an exception', () {
+      final List<num> stack = [0];
+      final command = InvertCommand();
+      expect(() => command.apply(stack), _throwsExceptionWithMessage('Exception: Cannot divide by zero'));
+    });
+  });
+
+  group('Commands', () {
+    test('Commands should be able to be executed', () {
+      final List<num> stack = [1, 2];
+      final List<Command> executedCommands = [];
+      final command = AddCommand();
+      command.apply(stack);
+      executedCommands.add(command);
+      expect(stack, [3]);
+      expect(executedCommands, [command]);
+    });
+  });
 }
 
 Matcher _throwsExceptionWithMessage(String message) {
